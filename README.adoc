@@ -1,0 +1,92 @@
+= 8-115 npx Create React App Generation
+
+`npx create-react-app client`
+
+https://create-react-app.dev/docs/getting-started#quick-start[Official docs on CRA usage with npx are available here].
+
+== Run Docker Compose
+
+```
+docker-compose up
+# OR build image and start container
+docker-compose up --build
+```
+== S14 - A Multi-Container App with Kubernetes
+
+==== L209 - A Quick Checkpoint
+```
+# Run from inside of complex folder
+docker-compose up --build
+```
+
+==== L213 - Applying Multiple Files with Kubectl
+```
+# Check current deployments/services
+kubectl get deployments
+kubectl get services
+
+# Delete previous deployment/services
+kubectl delete deployment client-deployment
+kubectl delete service client-node-port
+
+# Apply all the config files from specified directory
+kubectl apply -f k8s
+
+# Check created pods/services
+kubectl get pods
+kubectl get services
+```
+
+==== L227 - Persistent Volume Access Modes
+```
+kubectl get storageclass
+kubectl describe storageclass
+```
+
+==== L230 - Applying PVC
+```
+# List persistent values
+kubectl get pv
+# List persistent volumes claims
+kubectl get pvc
+```
+
+==== L233 - Creating an Encoded Secret
+```
+kubectl create secret generic <secret_name> --from-literal key=value
+
+# Example for PGPASSWORD
+kubectl create secret generic pgpassword --from-literal PGPASSWORD=12345asdf
+
+# Verify secret object
+kubectl get secrets
+```
+==== L236 - Environment Variables as Strings
+```
+# Apply all the config files from specified directory
+kubectl apply -f k8s
+```
+
+== S15 - Handling Taffic with Ingress Controllers
+
+==== L244 - Setting Up Ingres Locally with Minikube
+https://kubernetes.github.io/ingress-nginx/deploy/#provider-specific-steps[Provider Specific Steps]
+
+```
+minikube addons enable ingress
+```
+==== L249 - "Indexes I Have Seen" is Empty
+```
+# Run inside of the server directory
+docker build -t zakdim/multi-server .
+docker push zakdim/multi-server
+
+kubectl delete -f k8s/
+kubectl apply -f k8s/
+```
+
+==== L250 - The Minikube Dashboard
+
+```
+minikube dashboard
+```
