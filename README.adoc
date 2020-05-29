@@ -90,3 +90,44 @@ kubectl apply -f k8s/
 ```
 minikube dashboard
 ```
+== S16
+
+==== L266 - Ruby Version Fix
+
+```
+# Use the v2.4 version of Ruby instead of v2.3
+docker run -it -v $(pwd):/app ruby:2.4 sh
+```
+
+==== L267 - Running Travis CLI in a Container
+
+Use docker container with Ruby to encrypt service-account.json file.
+
+```
+# Create and start docker container with ruby
+docker run -it -v $(pwd):/app ruby:2.4 sh
+
+# Install Travic CLI inside of container
+gem install travis --no-rdoc --no-ri
+# Or
+gem install travis
+
+travis
+```
+
+==== L268 - Fixes for Travis "iv undefined" or"repository not known"
+```
+# Pass the --com flags to both these commands below:
+
+travis login --com
+travis encrypt-file service.json -r USERNAME/REPO --com
+```
+
+==== L269 - Encrypting a Service Account File
+```
+travis login
+
+# Copy json file into the 'volumed' directory
+# so we can use it in the container
+travis encrypt-file service-account.json -r zakdim/multi-k8s
+```
