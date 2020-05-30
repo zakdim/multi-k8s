@@ -131,3 +131,63 @@ travis login
 # so we can use it in the container
 travis encrypt-file service-account.json -r zakdim/multi-k8s
 ```
+
+==== L271 - Fix for Failing Travis Builds
+
+Make sure to change this script:
+
+```
+script:
+  - docker run USERNAME/docker-react npm run test -- --coverage
+To use the CI flag and remove coverage:
+
+script:
+  - docker run -e CI=true USERNAME/docker-react npm run test
+```
+
+==== L277 - Configuring the GCloud CLI on Cloud Console
+
+Run in GCloud Console:
+
+```
+gcloud config set project multi-k8s-278620
+
+# Set compute zone
+gcloud config set compute/zone us-central1-c	
+
+# Get credentials
+gcloud container clusters get-credentials multi-cluster
+
+```
+
+==== L277 - Create a Secret on Google Cloud
+
+```
+kubectl create secret generic pgpassword --from-literal PGPASSWORD=mypgpassword123
+```
+
+==== L279 - Helm V3 Update
+
+1. Install Helm v3:
+
+```
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+2. Skip the commands run in the following lectures:
+
+Helm Setup, Kubernetes Security with RBAC, Assigning Tiller a Service Account and Ingress-Nginx with Helm. You should still watch these lectures and they contain otherwise useful info.
+
+3. Install Ingress-Nginx:
+
+```
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+helm install my-nginx stable/nginx-ingress --set rbac.create=true 
+
+# OUTPUT:
+The nginx-ingress controller has been installed.
+It may take a few minutes for the LoadBalancer IP to be available.
+You can watch the status by running 'kubectl --namespace default get services -o wide -w my-nginx-nginx-ingress-controller'
+```
