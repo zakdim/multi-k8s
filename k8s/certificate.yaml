@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: zakd-org-tls
+spec:
+  secretName: zakd-org
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: zakd.org
+  dnsNames:
+    - zakd.org
+    - www.zakd.org
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+        domains:
+          - zakd.org
+          - www.zakd.org
