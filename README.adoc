@@ -287,3 +287,12 @@ certmanager.k8s.io/cluster-issuer: 'letsencrypt-prod'
 change to:
 
 cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+== S18 - Local Development wit Skaffold
+
+==== L309 - Live Sync Changes
+
+```
+minikube start
+skaffold dev
+```
